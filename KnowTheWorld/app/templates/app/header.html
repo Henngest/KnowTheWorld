@@ -1,9 +1,9 @@
 <ul>
-    {% for category in categories %}
-        <li>{{ category.name }}
+    {% for c in categories %}
+        <li>{{ c.name|capfirst }}
             <ul>
-                {% for subcategory in category.subcategory_set.all %}
-                    <li>{{ subcategory.name }} </li>
+                {% for s in c.subcategory_set.all %}
+                    <li><a href="{% url 'subcategory' c.name s.name %}">{{ s.name|capfirst }} </a></li>
                 {% endfor %}
             </ul>
         </li>
