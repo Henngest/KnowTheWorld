@@ -1,5 +1,11 @@
 <ul>
     {% for category in categories %}
-        <li>{{ category.name }}</li>
+        <li>{{ category.name }}
+            <ul>
+                {% for subcategory in category.subcategory_set.all %}
+                    <li>{{ subcategory.name }} </li>
+                {% endfor %}
+            </ul>
+        </li>
     {% endfor %}
 </ul>
