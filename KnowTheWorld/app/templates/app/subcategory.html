@@ -4,4 +4,9 @@ You are at {{ category.name|capfirst }} for {{ subcategory.name|capfirst }}.
 {% for l in subcategory.lesson_set.all %}
 <p>{{ l.text }}</p><img src="{{ l.image }}" style="width:50px;height:50px">
 {% endfor %}
+<br>
+<b> Select level for a quiz!</b><br>
+<a href="{% url 'show_quiz' category.name subcategory.name 1 %}">Level 1</a><br>
+<a href="{% url 'show_quiz' category.name subcategory.name 2 %}">Level 2</a><br>
+<a href="{% url 'show_quiz' category.name subcategory.name 3 %}">Level 3</a><br>
 {% endblock %}

@@ -29,6 +29,9 @@ class Category(models.Model):
 
     name = models.CharField(max_length=50, primary_key=True)
 
+    def __str__(self):
+        return self.name
+
 
 class Subcategory(models.Model):
     class Meta:
@@ -37,8 +40,40 @@ class Subcategory(models.Model):
     name = models.CharField(max_length=50, primary_key=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return self.name
+
 
 class Lesson(models.Model):
     text = models.TextField()
     image = models.CharField(max_length=200)
     lesson_subcategory = models.ForeignKey(Subcategory, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return "Lesson"
+
+
+class Quiz(models.Model):
+    quiz_level = models.IntegerField()
+    quiz_subcategory = models.ForeignKey(Subcategory, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return "Quiz"
+
+
+class Question(models.Model):
+    image = models.CharField(max_length=200)
+    question_text = models.CharField(max_length=200)
+    quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.question_text
+
+
+class Choice(models.Model):
+    is_correct_choice = models.BooleanField(default=False)
+    choice_text = models.CharField(max_length=100)
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.choice_text

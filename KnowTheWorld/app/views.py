@@ -70,3 +70,12 @@ def profile(request):
     categories = Category.objects.all()
     return render(request, template_name="app/profile.html", context={"user": request.user,
                                                                       'categories': categories})
+
+def show_quiz(request, category_id, subcategory_id, quiz_level):
+    category = Category.objects.get(pk=category_id)
+    subcategory = Subcategory.objects.get(pk=subcategory_id)
+    level = quiz_level
+    context = {"category": category,
+               "subcategory": subcategory,
+               "quiz_level": level}
+    return render(request, template_name="app/quiz.html", context=context)
