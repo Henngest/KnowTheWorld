@@ -5,6 +5,7 @@ You are at category {{ category.name }} for {{ subcategory.name }}, quiz level={
     {% for q in subcategory.quiz_set.all %}
     {% if q.quiz_level == quiz_level %}
     <form method="post">
+        {% csrf_token %}
     {{ q }}<br>
         {% for p in q.question_set.all %}
         <li>{{ p.question_text }}</li>
@@ -13,8 +14,11 @@ You are at category {{ category.name }} for {{ subcategory.name }}, quiz level={
             <label for="choiceInput">{{ c.choice_text }}</label><br>
             {% endfor %}
         {% endfor %}
+        <input type="submit" value="Submit answers">
     </form>
     {% endif %}
     {% endfor %}
 </ul>
+<br><br>
+Your result is {{ result }}%
 {% endblock %}

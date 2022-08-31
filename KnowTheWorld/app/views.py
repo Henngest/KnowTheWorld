@@ -3,7 +3,7 @@ from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from .models import Category, Subcategory, NewUserForm
+from .models import *
 from django.contrib.auth.decorators import login_required
 
 
@@ -71,10 +71,28 @@ def profile(request):
     return render(request, template_name="app/profile.html", context={"user": request.user,
                                                                       'categories': categories})
 
+
 def show_quiz(request, category_id, subcategory_id, quiz_level):
     category = Category.objects.get(pk=category_id)
     subcategory = Subcategory.objects.get(pk=subcategory_id)
     level = quiz_level
+    if request.method == 'POST':
+        correct = 0
+        total = 0
+        questions = Question.objects.filter(quiz__quiz_level=level)
+        for q in questions:
+            choices = Choice.objects.filter(question__question_text=q.question_text)
+            total += 1
+            for c in choices:
+                if c.is_correct_choice:
+                    if c.choice_text == request.POST.get(q.question_text):
+                        correct += 1
+        result = round(correct/total*100, 2)
+        context = {"category": category,
+                   "subcategory": subcategory,
+                   "quiz_level": level,
+                   "result": result}
+        return render(request, template_name="app/quiz.html", context=context)
     context = {"category": category,
                "subcategory": subcategory,
                "quiz_level": level}

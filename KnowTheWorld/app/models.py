@@ -58,7 +58,7 @@ class Quiz(models.Model):
     quiz_subcategory = models.ForeignKey(Subcategory, on_delete=models.CASCADE)
 
     def __str__(self):
-        return "Quiz"
+        return "Quiz "+self.quiz_level.__str__()
 
 
 class Question(models.Model):
