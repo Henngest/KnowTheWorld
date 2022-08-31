@@ -68,8 +68,10 @@ def logout_request(request):
 
 def profile(request):
     categories = Category.objects.all()
+    quiz_accomplishments = QuizResults.objects.filter(user=request.user)
     return render(request, template_name="app/profile.html", context={"user": request.user,
-                                                                      'categories': categories})
+                                                                      'categories': categories,
+                                                                      'quiz_accomplishments': quiz_accomplishments})
 
 
 def show_quiz(request, category_id, subcategory_id, quiz_level):

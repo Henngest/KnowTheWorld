@@ -6,5 +6,8 @@
   <span>{{ user.first_name }}</span><br><br>
   <span>{{ user.last_name }}</span><br><br>
   <span>{{ user.email }}</span><br><br>
+  {% for a in quiz_accomplishments %}
+  <span>{{ a.quiz }} with {{ a.result }}%</span><br>
+  {% endfor %}
 </div>
 {% endblock %}
