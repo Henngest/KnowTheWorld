@@ -8,5 +8,9 @@
     {% include "app/header.html" %}
     {% block content %}
     {% endblock %}
+    <ul>
+        <li><a href="{% url 'about' %}">About Us</a></li><br>
+        <li><a href="{% url 'contact' %}">Contact information</a></li><br>
+    </ul>
 </body>
 </html>

@@ -97,3 +97,15 @@ def show_quiz(request, category_id, subcategory_id, quiz_level):
                "subcategory": subcategory,
                "quiz_level": level}
     return render(request, template_name="app/quiz.html", context=context)
+
+
+def about(request):
+    categories = Category.objects.all()
+    context = {'categories': categories}
+    return render(request, template_name="app/about.html", context=context)
+
+
+def contact(request):
+    categories = Category.objects.all()
+    context = {'categories': categories}
+    return render(request, template_name="app/contact.html", context=context)

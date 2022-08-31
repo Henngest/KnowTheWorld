@@ -9,5 +9,7 @@ urlpatterns = [
     path("login", views.login_request, name="login"),
     path("logout", views.logout_request, name="logout"),
     path("profile", views.profile, name="profile"),
-    path('<str:category_id>/<str:subcategory_id>/quiz/<int:quiz_level>', views.show_quiz, name='show_quiz')
+    path('<str:category_id>/<str:subcategory_id>/quiz/<int:quiz_level>', views.show_quiz, name='show_quiz'),
+    path("about", views.about, name="about"),
+    path("contact", views.contact, name="contact")
 ]
