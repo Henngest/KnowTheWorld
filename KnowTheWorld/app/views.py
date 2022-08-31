@@ -73,12 +73,14 @@ def profile(request):
 
 
 def show_quiz(request, category_id, subcategory_id, quiz_level):
+    categories = Category.objects.all()
     category = Category.objects.get(pk=category_id)
     subcategory = Subcategory.objects.get(pk=subcategory_id)
     level = quiz_level
     if request.method == 'POST':
         correct = 0
         total = 0
+        quiz = subcategory.quiz_set.get(quiz_level=level)
         questions = Question.objects.filter(quiz__quiz_level=level)
         for q in questions:
             choices = Choice.objects.filter(question__question_text=q.question_text)
@@ -88,12 +90,27 @@ def show_quiz(request, category_id, subcategory_id, quiz_level):
                     if c.choice_text == request.POST.get(q.question_text):
                         correct += 1
         result = round(correct/total*100, 2)
+        sqr = QuizResults()
+        flag = True
+        for s in QuizResults.objects.all():
+            if s.user == request.user and s.quiz == quiz:
+                if result > s.result:
+                    s.result = result
+                s.save()
+                flag = False
+        if flag:
+            sqr.user = request.user
+            sqr.quiz = quiz
+            sqr.result = result
+            sqr.save()
         context = {"category": category,
+                   'categories': categories,
                    "subcategory": subcategory,
                    "quiz_level": level,
                    "result": result}
         return render(request, template_name="app/quiz.html", context=context)
     context = {"category": category,
+               'categories': categories,
                "subcategory": subcategory,
                "quiz_level": level}
     return render(request, template_name="app/quiz.html", context=context)

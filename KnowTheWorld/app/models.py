@@ -77,3 +77,12 @@ class Choice(models.Model):
 
     def __str__(self):
         return self.choice_text
+
+
+class QuizResults(models.Model):
+    quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    result = models.IntegerField()
+
+    def __str__(self):
+        return self.user.__str__()+" "+self.quiz.__str__()+" "+self.result.__str__()
