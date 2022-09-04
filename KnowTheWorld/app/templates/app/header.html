@@ -1,31 +1,45 @@
-<ul>
-    {% for c in categories %}
-        <li>{{ c.name|capfirst }}
-            <ul>
-                {% for s in c.subcategory_set.all %}
-                    <li><a href="{% url 'subcategory' c.name s.name %}">{{ s.name|capfirst }} </a></li>
-                {% endfor %}
+{% load static %}
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h1 style="padding-top:45px; padding-left:320px; color:#83b749; font-weight: bold">Know The World</h1>
+        </div>
+        <div class="col">
+            <a href="/"><img style="width:150px" src="{% static 'app/pngwing.com.png' %}"></a>
+        </div>
+    </div>
+    <div class="row" style="background-color:#83b749; font-weight:bold">
+        {% for c in categories %}
+        <div class="col">
+            <ul class="nav nav-tabs" style="display: inline" >
+                <li class="nav-item dropdown" style="">
+                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false" style="color:black">{{ c.name|capfirst }}</a>
+                <ul class="dropdown-menu">
+                    {% for s in c.subcategory_set.all %}
+                        <li><a class="dropdown-item" href="{% url 'subcategory' c.name s.name %}" style="color:black">{{ s.name|capfirst }}</a></li>
+                    {% endfor %}
+                </ul>
+                </li>
             </ul>
-        </li>
-    {% endfor %}
-</ul>
-<div class="collapse navbar-collapse" id="navbarText">
-    <ul class="navbar-nav mr-auto">
-      {% if user.is_authenticated %}
+        </div>
+        {% endfor %}
+        {% if user.is_authenticated %}
+        <div class="col" style="padding-top:8px; padding-left:100px">
+            <a style="text-decoration:none; color:black; background-color:white; border-radius:5px" href="/logout">Logout</a>
+        </div>
+        <div class="col-3" style="padding:8px">
+            <span style="text-decoration:none; color:black" href="/profile">Welcome, {{user.username}}</span>
+            <a style="text-decoration:none; color:black; background-color:white; border-radius:5px; margin-left:2px" href="/profile">Your Profile</a>
+        </div>
+        {% else %}
+        <div class="col" style="padding:8px">
+            <a style="text-decoration:none; color:black; background-color:white; border-radius:5px" href="/login">Login</a>
+            <a style="text-decoration:none; color:black; background-color:white; border-radius:5px; margin-left:5px" href="/register">Sign up</a>
+        </div>
 
-      <li class="nav-item">
-        <a class="nav-link" href="/logout">Logout</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/profile">Welcome, {{user.username}}</a>
-      </li>
+        {% endif %}
 
-      {% else %}
 
-      <li class="nav-item">
-        <a class="nav-link" href="/login">Login</a>
-      </li>
 
-      {% endif %}
-    </ul>
-  </div>
+    </div>
+</div>

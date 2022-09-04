@@ -1,12 +1,30 @@
 {% extends "./base.html" %}
 {% block content %}
-You are at {{ category.name|capfirst }} for {{ subcategory.name|capfirst }}.
-{% for l in subcategory.lesson_set.all %}
-<p>{{ l.text }}</p><img src="{{ l.image }}" style="width:50px;height:50px">
-{% endfor %}
-<br>
-<b> Select level for a quiz!</b><br>
-<a href="{% url 'show_quiz' category.name subcategory.name 1 %}">Level 1</a><br>
-<a href="{% url 'show_quiz' category.name subcategory.name 2 %}">Level 2</a><br>
-<a href="{% url 'show_quiz' category.name subcategory.name 3 %}">Level 3</a><br>
+<div class="container">
+    <div style="text-align: center; font-weight: bold; margin: 30px">
+        <span>{{ category.name|capfirst }} in {{ subcategory.name|capfirst }}</span>
+    </div>
+    <div class="row" style="margin-bottom: 20px">
+        <div class="col-10" style="display: inline">
+        {% for l in subcategory.lesson_set.all %}
+            <div class="row" style="margin:10px">
+                <div class="col-9">
+                    <p>{{ l.text }}</p>
+                </div>
+                <div class="col">
+                    <img src="{{ l.image }}" style="width:150px;height:150px">
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+        <div class="col" style="display: flex; align-items: flex-end">
+            <div class="row">
+                <b> Take a quiz for this topic!</b><br>
+                <a href="{% url 'show_quiz' category.name subcategory.name 1 %}" style="text-decoration: none; color: black; font-weight: bold; background-color: #89b458; border-radius: 2px; width: 100px; margin: 2px">Level 1</a><br>
+                <a href="{% url 'show_quiz' category.name subcategory.name 2 %}" style="text-decoration: none; color: black; font-weight: bold; background-color: #89b458; border-radius: 2px; width: 100px; margin: 2px">Level 2</a><br>
+                <a href="{% url 'show_quiz' category.name subcategory.name 3 %}" style="text-decoration: none; color: black; font-weight: bold; background-color: #89b458; border-radius: 2px; width: 100px; margin: 2px">Level 3</a><br>
+            </div>
+    </div>
+    </div>
+</div>
 {% endblock %}

@@ -1,24 +1,46 @@
 {% extends "./base.html" %}
 {% block content %}
-You are at category {{ category.name }} for {{ subcategory.name }}, quiz level={{ quiz_level }}<br><br>
-<ul>
+<h2 style="margin: 30px; text-align: center">{{ category.name|capfirst }} in {{ subcategory.name|capfirst }} (Quiz level {{ quiz_level }})</h2><br><br>
+<div class="container" style="margin-bottom: 20px">
+    <ol>
     {% for q in subcategory.quiz_set.all %}
     {% if q.quiz_level == quiz_level %}
     <form method="post">
         {% csrf_token %}
-    {{ q }}<br>
+        <a href="{% url 'subcategory' category.name subcategory.name %}" role="button" class="btn btn-success">Go back to the lesson</a>
         {% for p in q.question_set.all %}
-        <li>{{ p.question_text }}</li>
-            {% for c in p.choice_set.all %}
-            <input type="radio" id="choiceInput" name="{{p}}" value="{{ c.choice_text }}">
-            <label for="choiceInput">{{ c.choice_text }}</label><br>
+        <div class="row-10">
+            <li>{{ p.question_text }}</li>
+        </div>
+        <div class="row">
+            <div class="col-2">
+                <img src="{{p.image}}" style="width:100px">
+            </div>
+            <div class="col-4" style="margin:5px">
+                {% for c in p.choice_set.all %}
+                <input type="radio" id="choiceInput" name="{{p}}" value="{{ c.choice_text }}">
+                <label for="choiceInput">{{ c.choice_text }}</label><br>
             {% endfor %}
+            </div>
+
+        </div>
+
         {% endfor %}
         <input type="submit" value="Submit answers">
     </form>
     {% endif %}
     {% endfor %}
-</ul>
-<br><br>
-Your result is {{ result }}%
+    </ol>
+    <br><br>
+    Your result is {{ result }}%
+    <div class="row" style="display:flex; justify-content:flex-end">
+        <div class="col-2">
+            <b> Take another quiz for this topic!</b><br>
+            <a href="{% url 'show_quiz' category.name subcategory.name 1 %}" style="text-decoration: none; color: black; font-weight: bold; background-color: #89b458; border-radius: 2px; width: 100px; margin: 2px">Level 1</a><br>
+            <a href="{% url 'show_quiz' category.name subcategory.name 2 %}" style="text-decoration: none; color: black; font-weight: bold; background-color: #89b458; border-radius: 2px; width: 100px; margin: 2px">Level 2</a><br>
+            <a href="{% url 'show_quiz' category.name subcategory.name 3 %}" style="text-decoration: none; color: black; font-weight: bold; background-color: #89b458; border-radius: 2px; width: 100px; margin: 2px">Level 3</a><br>
+        </div>
+        </div>
+</div>
+
 {% endblock %}

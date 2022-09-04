@@ -13,7 +13,6 @@ def index(request):
     return render(request, 'app/index.html', context)
 
 
-@login_required()
 def subcategory(request, category_id, subcategory_id):
     categories = Category.objects.all()
     category = Category.objects.get(pk=category_id)
@@ -74,6 +73,7 @@ def profile(request):
                                                                       'quiz_accomplishments': quiz_accomplishments})
 
 
+@login_required()
 def show_quiz(request, category_id, subcategory_id, quiz_level):
     categories = Category.objects.all()
     category = Category.objects.get(pk=category_id)
@@ -82,8 +82,10 @@ def show_quiz(request, category_id, subcategory_id, quiz_level):
     if request.method == 'POST':
         correct = 0
         total = 0
-        quiz = subcategory.quiz_set.get(quiz_level=level)
-        questions = Question.objects.filter(quiz__quiz_level=level)
+        quizz = subcategory.quiz_set.get(quiz_level=level)
+        print(quizz)
+        questions = Question.objects.filter(quiz__id=quizz.id)
+        print(questions.count())
         for q in questions:
             choices = Choice.objects.filter(question__question_text=q.question_text)
             total += 1
@@ -91,18 +93,18 @@ def show_quiz(request, category_id, subcategory_id, quiz_level):
                 if c.is_correct_choice:
                     if c.choice_text == request.POST.get(q.question_text):
                         correct += 1
-        result = round(correct/total*100, 2)
+        result = round(correct / total * 100, 2)
         sqr = QuizResults()
         flag = True
         for s in QuizResults.objects.all():
-            if s.user == request.user and s.quiz == quiz:
+            if s.user == request.user and s.quiz == quizz:
                 if result > s.result:
                     s.result = result
                 s.save()
                 flag = False
         if flag:
             sqr.user = request.user
-            sqr.quiz = quiz
+            sqr.quiz = quizz
             sqr.result = result
             sqr.save()
         context = {"category": category,

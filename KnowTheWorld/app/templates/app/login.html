@@ -5,8 +5,8 @@
   <form method="POST">
     {% csrf_token %}
     {{ login_form }}
-    <button class="btn btn-primary" type="submit">Login</button>
+    <button class="btn btn-success" type="submit">Login</button>
   </form>
-  <p class="text-center">Don't have an account? <a href="/register">Create an account</a>.</p>
+  <p class="text-center">Don't have an account? <a href="/register" role="button" class="btn btn-success">Create an account</a></p>
 </div>
 {% endblock %}

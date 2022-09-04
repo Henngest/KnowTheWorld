@@ -1,13 +1,24 @@
 {% extends "./base.html" %}
 {% block content %}
 <div class="container py-5">
-  <h1>Your profile</h1>
-  <span>{{ user.username }}</span><br><br>
-  <span>{{ user.first_name }}</span><br><br>
-  <span>{{ user.last_name }}</span><br><br>
-  <span>{{ user.email }}</span><br><br>
-  {% for a in quiz_accomplishments %}
-  <span>{{ a.quiz }} with {{ a.result }}%</span><br>
-  {% endfor %}
+  <div class="row">
+    <div class="col-6">
+      <h1>Your profile</h1>
+      <span>{{ user.username }}</span><br><br>
+      <span>{{ user.email }}</span><br><br>
+      <span>{{ user.first_name }}</span><br><br>
+      <span>{{ user.last_name }}</span><br><br>
+    </div>
+    <div class="col-6">
+      <h1 style="text-align: center">Your quiz accomplishments</h1>
+      {% for a in quiz_accomplishments %}
+      <span>{{ a.quiz }} with {{ a.result }}%</span>
+      <a href="{% url 'show_quiz' a.quiz.quiz_subcategory.category.name a.quiz.quiz_subcategory.name a.quiz.quiz_level %}" class="btn btn-success btn-sm" style="margin:2px" role="button">Try Again</a><br>
+      <div class="progress">
+        <div class="progress-bar bg-success" role="progressbar" style="width: {{a.result}}%" aria-valuenow="{{a.result}}" aria-valuemin="0" aria-valuemax="100"></div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
 </div>
 {% endblock %}
