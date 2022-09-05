@@ -22,11 +22,14 @@
                 <label for="choiceInput">{{ c.choice_text }}</label><br>
             {% endfor %}
             </div>
-
         </div>
-
         {% endfor %}
         <input type="submit" value="Submit answers">
+        <div class="col-5">
+            {% for a in list_answers %}
+                <span style="color: #ff5f57; font-weight: bold">The correct answer for question number {{a}}</span><br>
+            {% endfor %}
+        </div>
     </form>
     {% endif %}
     {% endfor %}
