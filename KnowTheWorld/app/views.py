@@ -83,9 +83,7 @@ def show_quiz(request, category_id, subcategory_id, quiz_level):
         correct = 0
         total = 0
         quizz = subcategory.quiz_set.get(quiz_level=level)
-        print(quizz)
         questions = Question.objects.filter(quiz__id=quizz.id)
-        print(questions.count())
         for q in questions:
             choices = Choice.objects.filter(question__question_text=q.question_text)
             total += 1
